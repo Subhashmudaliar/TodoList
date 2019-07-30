@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Todo List</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'todo/style.css' %}">
+
+</head>
+<body>
+<div>
+<div class="container py-5">
+  <h1 class="display-2 text-center main">TodoList</h1>
+  <p class="lead text-center">Welcome to my todoList application</p>
+  
+    <h3 class ="text-center">What do you want to do today?</h3><br>
+    <form action="{% url 'add' %}" method="POST" role ="form">
+      {% csrf_token %}
+    <div class="form-inline ip">
+    {{ form.text }}
+    <button type="submit" class="btn btn-outline-success ml-1">Add</button>
+  </div> 
+  <br>
+</form>
+<div class="form-inline ip">
+    <a href="{% url 'delDone'%}"><button type="submit" class="btn btn-outline-danger mr-1">Delete Completed</button></a>
+    <a href="{% url 'delAll'%}"><button type="submit" class="btn btn-outline-danger mr-1">Delete All</button></a>
+  </div> 
+  <br>
+  <ul class="list-group t20">
+    {% for todo in todo_list %}
+    {% if todo.complete%}
+    <li class="list-group-item" style="text-decoration: line-through;">{{ todo.text }}</li>
+    {% else %}
+    <a href="{% url 'done' todo.id %}"><li class="list-group-item">{{ todo.text }}</li></a>
+    {% endif %}
+    {% endfor %}
+    
+   
+</ul>
+</div>
+</div>
+</body>
+</html>
